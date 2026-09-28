@@ -1,0 +1,314 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #0f172a;
+  --font-sans: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-arabic: var(--font-cairo), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  /* Essamco Brand Color Tokens */
+  --brand-blue-50: #eff6ff;
+  --brand-blue-100: #dbeafe;
+  --brand-blue-500: #3b82f6;
+  --brand-blue-600: #2563eb;
+  --brand-blue-700: #1d4ed8;
+  --brand-blue-800: #1e40af;
+  --brand-blue-900: #1e3a8a;
+  --brand-navy-950: #0b152b;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* ========================================================
+   UNIVERSAL CURSOR POINTER ON ALL INTERACTIVE ELEMENTS
+   ======================================================== */
+button,
+a,
+select,
+summary,
+[role="button"],
+[role="tab"],
+[role="checkbox"],
+[role="radio"],
+[role="switch"],
+[role="menuitem"],
+label[for],
+input[type="submit"],
+input[type="button"],
+input[type="reset"],
+input[type="checkbox"],
+input[type="radio"],
+.cursor-pointer,
+[onclick] {
+  cursor: pointer !important;
+}
+
+/* ========================================================
+   ARABIC TYPOGRAPHY & RTL STYLING (High Priority)
+   ======================================================== */
+[dir="rtl"],
+html[lang="ar"],
+html[lang="ar"] body {
+  font-family: var(--font-arabic);
+  line-height: 1.68;
+  letter-spacing: normal;
+}
+
+/* Font features for clean Arabic shaping */
+[dir="rtl"] p,
+[dir="rtl"] span,
+[dir="rtl"] a,
+[dir="rtl"] button,
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] label {
+  font-feature-settings: "cv01", "cv02", "liga", "clig";
+}
+
+/* Ensure small Arabic text remains crystal clear and never thin */
+[dir="rtl"] .text-xs {
+  font-size: 0.8125rem; /* 13px */
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+[dir="rtl"] .text-\[11px\],
+[dir="rtl"] .text-\[10px\] {
+  font-size: 0.75rem; /* 12px min for Arabic legibility */
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+[dir="rtl"] .font-semibold {
+  font-weight: 600;
+}
+
+[dir="rtl"] .font-bold {
+  font-weight: 700;
+}
+
+[dir="rtl"] .font-black {
+  font-weight: 800;
+}
+
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4 {
+  line-height: 1.35;
+  letter-spacing: normal;
+}
+
+/* ========================================================
+   PHONE NUMBER DIRECTION ISOLATION (Universal Fix)
+   ======================================================== */
+.phone-number,
+[data-phone],
+a[href^="tel:"],
+span.phone-isolate,
+.phone-ltr {
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+  display: inline-block;
+}
+
+/* In inputs */
+input[type="tel"],
+input[name="phone"] {
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: start;
+}
+
+/* ========================================================
+   CUSTOM SCROLLBAR (Essamco Brand Identity)
+   ======================================================== */
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+  border: 2px solid #f8fafc;
+  transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1d4ed8;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f8fafc;
+}
+
+/* ========================================================
+   SUBTLE ANIMATIONS & MOTION
+   ======================================================== */
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes floatGentleDelayed {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+.animate-float {
+  animation: floatGentle 4.5s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: floatGentleDelayed 5s ease-in-out 1.5s infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* Scroll Reveal States */
+.reveal-init {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-init.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-left.is-revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(32px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-right.is-revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.95) translateY(20px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-scale.is-revealed {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* Stagger delay helpers */
+.delay-75 { transition-delay: 75ms; }
+.delay-100 { transition-delay: 100ms; }
+.delay-150 { transition-delay: 150ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-250 { transition-delay: 250ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-350 { transition-delay: 350ms; }
+.delay-400 { transition-delay: 400ms; }
+
+/* Navbar Link Animated Underline */
+.nav-link-animated {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+
+.nav-link-animated::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #1d4ed8;
+  border-radius: 9999px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateX(-50%);
+  opacity: 0;
+}
+
+.nav-link-animated:hover::after,
+.nav-link-animated.active::after {
+  width: 80%;
+  opacity: 1;
+}
+
+/* ========================================================
+   ACCESSIBILITY: PREFERS-REDUCED-MOTION
+   ======================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal-init,
+  .reveal-left,
+  .reveal-right,
+  .reveal-scale {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

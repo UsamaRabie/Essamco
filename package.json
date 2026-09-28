@@ -1,0 +1,19 @@
+{
+  "name": "essamco-mern",
+  "version": "1.0.0",
+  "description": "Essamco - Industrial & Commercial Cleaning Solutions - Full MERN Stack Application",
+  "main": "server/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "seed": "cd server && node seed.js",
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "keywords": ["mern", "nextjs", "express", "mongodb", "essamco", "cleaning-chemicals", "industrial"],
+  "author": "Essamco",
+  "license": "ISC"
+}
