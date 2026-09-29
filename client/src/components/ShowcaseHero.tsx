@@ -208,6 +208,9 @@ export const ShowcaseHero: React.FC<ShowcaseHeroProps> = ({
       {/* Main Hero Card Container with Scale Animation */}
       <ScrollReveal type="scale" delay={50}>
         <div className="relative overflow-hidden rounded-[24px] sm:rounded-[28px] bg-[#EEF3F7] border border-[#E2EAF0] shadow-sm">
+          {/* Subtle Ambient Animated Orbs for Depth & Vitality */}
+          <div className="absolute -top-24 -start-24 w-96 h-96 bg-blue-300/25 rounded-full blur-3xl pointer-events-none animate-pulse-glow" />
+          <div className="absolute -bottom-24 -end-24 w-80 h-80 bg-indigo-300/20 rounded-full blur-3xl pointer-events-none animate-float-delayed" />
           
           {/* DESKTOP & TABLET LAYOUT */}
           <div className="hidden sm:grid sm:grid-cols-12 items-center min-h-[460px] relative">
@@ -344,15 +347,15 @@ export const ShowcaseHero: React.FC<ShowcaseHeroProps> = ({
 
       {/* Carousel Navigation Controls Below Card */}
       <ScrollReveal type="up" delay={150}>
-        <div className="mt-5 flex items-center justify-center gap-3">
-          {/* Prev Arrow */}
+        <div dir="ltr" className="mt-5 flex items-center justify-center gap-3">
+          {/* Left Arrow (Previous) */}
           <button
             type="button"
-            onClick={isAr ? handleNextSlide : handlePrevSlide}
+            onClick={handlePrevSlide}
             aria-label="Previous Slide"
-            className="w-8 h-8 rounded-full border border-slate-200 bg-white hover:bg-slate-100 flex items-center justify-center text-slate-700 transition-all shadow-2xs hover:scale-105 active:scale-95 cursor-pointer"
+            className="w-8 h-8 rounded-full bg-[#1E2D4A] hover:bg-[#152035] text-white flex items-center justify-center transition-all duration-200 shadow-sm hover:scale-105 active:scale-95 cursor-pointer"
           >
-            {isAr ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+            <ChevronLeft className="w-4 h-4" />
           </button>
 
           {/* Dots Indicator */}
@@ -372,14 +375,14 @@ export const ShowcaseHero: React.FC<ShowcaseHeroProps> = ({
             ))}
           </div>
 
-          {/* Next Arrow */}
+          {/* Right Arrow (Next) */}
           <button
             type="button"
-            onClick={isAr ? handlePrevSlide : handleNextSlide}
+            onClick={handleNextSlide}
             aria-label="Next Slide"
-            className="w-8 h-8 rounded-full bg-[#1E2D4A] hover:bg-[#152035] flex items-center justify-center text-white transition-all shadow-2xs hover:scale-105 active:scale-95 cursor-pointer"
+            className="w-8 h-8 rounded-full bg-[#1E2D4A] hover:bg-[#152035] text-white flex items-center justify-center transition-all duration-200 shadow-sm hover:scale-105 active:scale-95 cursor-pointer"
           >
-            {isAr ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+            <ChevronRight className="w-4 h-4" />
           </button>
         </div>
       </ScrollReveal>

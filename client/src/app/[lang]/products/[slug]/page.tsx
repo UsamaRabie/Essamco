@@ -42,7 +42,8 @@ export default function ProductDetailPage({ params }: PageProps) {
     if (language !== currentLang) {
       setLanguage(currentLang);
     }
-  }, [currentLang, language, setLanguage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentLang]);
 
   const [product, setProduct] = useState<Product | null>(null);
   const [siteContent, setSiteContent] = useState<SiteContent | null>(null);

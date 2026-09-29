@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 
 type Language = 'en' | 'ar';
 
@@ -122,15 +123,8 @@ const translations: Record<string, { en: string; ar: string }> = {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  let pathname = '';
-  let router: any = null;
-  try {
-    const { usePathname, useRouter } = require('next/navigation');
-    pathname = usePathname() || '';
-    router = useRouter();
-  } catch (e) {
-    // Fallback if not inside Next.js router
-  }
+  const pathname = usePathname() || '';
+  const router = useRouter();
 
   // Derive language from URL if present: /ar/... or /en/...
   const langFromUrl: Language | null = pathname.startsWith('/en')
@@ -162,12 +156,26 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
-    if (router && pathname) {
-      if (pathname.startsWith('/ar') || pathname.startsWith('/en')) {
-        const newPath = pathname.replace(/^\/(ar|en)/, `/${lang}`);
-        router.push(newPath);
-      } else if (!pathname.startsWith('/admin')) {
-        router.push(`/${lang}${pathname === '/' ? '' : pathname}`);
+    try {
+      localStorage.setItem('essamco_lang', lang);
+    } catch {}
+
+    const currentPath = pathname || (typeof window !== 'undefined' ? window.location.pathname : '');
+    if (currentPath) {
+      if (currentPath.startsWith('/ar') || currentPath.startsWith('/en')) {
+        const newPath = currentPath.replace(/^\/(ar|en)/, `/${lang}`);
+        if (router) {
+          router.push(newPath);
+        } else if (typeof window !== 'undefined') {
+          window.location.href = newPath;
+        }
+      } else if (!currentPath.startsWith('/admin')) {
+        const newPath = `/${lang}${currentPath === '/' ? '' : currentPath}`;
+        if (router) {
+          router.push(newPath);
+        } else if (typeof window !== 'undefined') {
+          window.location.href = newPath;
+        }
       }
     }
   };

@@ -50,11 +50,11 @@ export const ShowcaseStats: React.FC<ShowcaseStatsProps> = ({ stats }) => {
             const label = isAr && metric.labelAr ? metric.labelAr : metric.label;
             return (
               <ScrollReveal key={idx} type="up" delay={idx * 100}>
-                <div className="flex flex-col items-center sm:items-start text-center sm:text-start">
-                  <span className="text-2xl sm:text-[28px] font-black text-[#0F172A] tracking-tight">
+                <div className="flex flex-col items-center sm:items-start text-center sm:text-start group cursor-default transition-transform duration-300 hover:-translate-y-1">
+                  <span className="text-2xl sm:text-[28px] font-black text-[#0F172A] tracking-tight group-hover:text-blue-600 transition-colors">
                     {metric.value}
                   </span>
-                  <span className="text-xs sm:text-sm font-medium text-[#64748B] mt-0.5">
+                  <span className="text-xs sm:text-sm font-medium text-[#64748B] mt-0.5 group-hover:text-slate-800 transition-colors">
                     {label}
                   </span>
                 </div>

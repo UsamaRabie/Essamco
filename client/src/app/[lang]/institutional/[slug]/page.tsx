@@ -135,7 +135,8 @@ export default function InstitutionalDetailPage({ params }: PageProps) {
     if (language !== currentLang) {
       setLanguage(currentLang);
     }
-  }, [currentLang, language, setLanguage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentLang]);
 
   const [siteContent, setSiteContent] = useState<SiteContent | null>(null);
   const [quoteOpen, setQuoteOpen] = useState(false);

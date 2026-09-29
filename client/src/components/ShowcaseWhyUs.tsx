@@ -76,15 +76,15 @@ export const ShowcaseWhyUs: React.FC<ShowcaseWhyUsProps> = ({
 
               return (
                 <ScrollReveal key={idx} type="up" delay={idx * 100}>
-                  <div className="flex items-start gap-3.5">
+                  <div className="flex items-start gap-3.5 p-2.5 rounded-2xl transition-all duration-200 hover:bg-blue-50/40 hover:translate-x-1 group">
                     {/* Blue Checkmark Icon */}
-                    <div className="mt-0.5 shrink-0">
+                    <div className="mt-0.5 shrink-0 group-hover:scale-115 transition-transform duration-200">
                       <CheckCircle2 className="w-5 h-5 text-[#3B82F6]" />
                     </div>
 
                     {/* Point Text */}
                     <div>
-                      <h4 className="text-sm sm:text-[15px] font-bold text-[#0F172A] leading-tight">
+                      <h4 className="text-sm sm:text-[15px] font-bold text-[#0F172A] leading-tight group-hover:text-blue-700 transition-colors">
                         {ptTitle}
                       </h4>
                       <p className="text-xs sm:text-[13px] text-[#475569] mt-1 leading-relaxed">
@@ -103,7 +103,7 @@ export const ShowcaseWhyUs: React.FC<ShowcaseWhyUsProps> = ({
               <button
                 type="button"
                 onClick={onOpenQuote}
-                className="w-full sm:w-auto bg-[#1E2D4A] hover:bg-[#152035] text-white px-9 py-3 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 shadow-sm active:scale-98 cursor-pointer"
+                className="btn-hover-shine w-full sm:w-auto bg-[#1E2D4A] hover:bg-[#152035] text-white px-9 py-3 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 shadow-sm hover:shadow-md hover:scale-102 active:scale-98 cursor-pointer"
               >
                 {btnText}
               </button>

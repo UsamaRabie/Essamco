@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '../context/LanguageContext';
-import { ChevronLeft, ChevronRight, ArrowRight, ArrowLeft, Sparkles, Eye } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Sparkles, Eye } from 'lucide-react';
 import { SiteContent, ShowcaseCard, Product } from '../types';
 import { ScrollReveal } from './ScrollReveal';
 
@@ -57,25 +57,34 @@ export const ShowcaseRetail: React.FC<ShowcaseRetailProps> = ({
     return [];
   }, [content?.cards, products]);
 
+  // Multiply cards to ensure continuous seamless reel without blank space
+  const displayCards = useMemo(() => {
+    if (!cards || cards.length === 0) return [];
+    if (cards.length < 5) {
+      return [...cards, ...cards, ...cards, ...cards];
+    }
+    return [...cards, ...cards];
+  }, [cards]);
+
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(false);
 
-  // Smooth continuous advertising ticker / auto-scroll
+  // Smooth continuous automatic reel ticker
   useEffect(() => {
     const el = scrollContainerRef.current;
-    if (!el) return;
+    if (!el || displayCards.length === 0) return;
 
     let animId: number;
-    const speed = 0.8; // px per tick
+    const speed = 1.0; // 1px per frame - visible, elegant, constant motion
 
     const step = () => {
       if (!isPaused && el) {
-        el.scrollLeft += isAr ? -speed : speed;
-        // Infinite wrap around
-        if (el.scrollLeft >= el.scrollWidth - el.clientWidth - 5) {
+        el.scrollLeft += speed;
+        const halfWidth = el.scrollWidth / 2;
+        if (halfWidth > 0 && el.scrollLeft >= halfWidth) {
+          el.scrollLeft -= halfWidth;
+        } else if (el.scrollLeft >= el.scrollWidth - el.clientWidth - 2) {
           el.scrollLeft = 0;
-        } else if (el.scrollLeft <= 0 && isAr) {
-          el.scrollLeft = el.scrollWidth - el.clientWidth;
         }
       }
       animId = requestAnimationFrame(step);
@@ -83,19 +92,9 @@ export const ShowcaseRetail: React.FC<ShowcaseRetailProps> = ({
 
     animId = requestAnimationFrame(step);
     return () => cancelAnimationFrame(animId);
-  }, [isPaused, isAr]);
+  }, [isPaused, displayCards.length]);
 
-  const scrollLeftManual = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: isAr ? 320 : -320, behavior: 'smooth' });
-    }
-  };
 
-  const scrollRightManual = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: isAr ? -320 : 320, behavior: 'smooth' });
-    }
-  };
 
   const handleProductClick = (slug: string) => {
     router.push(`/${language}/products/${slug}`);
@@ -123,27 +122,6 @@ export const ShowcaseRetail: React.FC<ShowcaseRetailProps> = ({
                 {subtitle}
               </p>
             </div>
-
-            {/* Slider Controls */}
-            <div className="flex items-center gap-2.5 self-start sm:self-auto">
-              <button
-                type="button"
-                onClick={scrollLeftManual}
-                aria-label="Previous"
-                className="w-9 h-9 rounded-full bg-white border border-slate-200 hover:border-slate-300 text-slate-700 hover:text-blue-700 flex items-center justify-center shadow-xs hover:shadow-md transition-all active:scale-95 cursor-pointer"
-              >
-                {isAr ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-              </button>
-
-              <button
-                type="button"
-                onClick={scrollRightManual}
-                aria-label="Next"
-                className="w-9 h-9 rounded-full bg-[#1E2D4A] hover:bg-[#152035] text-white flex items-center justify-center shadow-xs hover:shadow-md transition-all active:scale-95 cursor-pointer"
-              >
-                {isAr ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-              </button>
-            </div>
           </div>
         </ScrollReveal>
       </div>
@@ -160,13 +138,20 @@ export const ShowcaseRetail: React.FC<ShowcaseRetailProps> = ({
           className="w-full relative py-2"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setIsPaused(false)}
         >
+          {/* Subtle edge fade gradient masks for ultra-clean presentation */}
+          <div className="absolute top-0 bottom-0 start-0 w-8 sm:w-16 bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none" />
+          <div className="absolute top-0 bottom-0 end-0 w-8 sm:w-16 bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none" />
+
           <div
             ref={scrollContainerRef}
-            className="flex gap-5 overflow-x-auto no-scrollbar scroll-smooth px-4 sm:px-8 cursor-grab active:cursor-grabbing"
+            dir="ltr"
+            className="flex gap-5 overflow-x-auto no-scrollbar px-4 sm:px-8 cursor-grab active:cursor-grabbing select-none"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
-            {cards.map((card, idx) => {
+            {displayCards.map((card, idx) => {
               const cardTitle = isAr && card.titleAr ? card.titleAr : card.title;
               const cardBadge = isAr && card.badgeAr ? card.badgeAr : card.badge;
               const cardDesc = isAr && card.shortDescriptionAr ? card.shortDescriptionAr : card.shortDescription;
@@ -175,9 +160,10 @@ export const ShowcaseRetail: React.FC<ShowcaseRetailProps> = ({
               return (
                 <div
                   key={`${cardSlug}-${idx}`}
+                  dir={isAr ? 'rtl' : 'ltr'}
                   onClick={() => handleProductClick(cardSlug)}
-                className="w-[280px] sm:w-[320px] shrink-0 group relative rounded-2xl overflow-hidden bg-white border border-slate-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col cursor-pointer"
-              >
+                  className="w-[280px] sm:w-[320px] shrink-0 group relative rounded-2xl overflow-hidden bg-white border border-slate-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col cursor-pointer"
+                >
                 {/* Product Image Stage */}
                 <div className="relative w-full h-52 bg-gradient-to-b from-slate-100 to-slate-50 flex items-center justify-center overflow-hidden p-3">
                   <Image

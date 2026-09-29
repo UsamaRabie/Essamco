@@ -38,7 +38,8 @@ export default function ProductCatalogPage({ params }: PageProps) {
     if (language !== currentLang) {
       setLanguage(currentLang);
     }
-  }, [currentLang, language, setLanguage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentLang]);
 
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);

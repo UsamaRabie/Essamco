@@ -40,7 +40,7 @@ export const ShowcaseBrands: React.FC<ShowcaseBrandsProps> = ({
               onClick={() => {
                 if (onSelectBrand) onSelectBrand(brand.slug);
               }}
-              className="group relative w-full h-16 sm:h-20 flex items-center justify-center p-3 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-all duration-300 hover:shadow-xs hover:-translate-y-0.5 cursor-pointer"
+              className="group relative w-full h-16 sm:h-20 flex items-center justify-center p-3 rounded-2xl bg-white/60 hover:bg-white border border-slate-200/60 hover:border-blue-300 transition-all duration-300 shadow-2xs hover:shadow-md hover:-translate-y-1 cursor-pointer"
               title={isAr && brand.nameAr ? brand.nameAr : brand.name}
             >
               <div className="relative w-full h-full flex items-center justify-center">

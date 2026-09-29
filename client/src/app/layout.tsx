@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter, Cairo } from 'next/font/google';
 import './globals.css';
 import { LanguageProvider } from '../context/LanguageContext';
+import { ScrollProgress } from '../components/ScrollProgress';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -171,6 +172,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col font-sans bg-white text-slate-900 antialiased selection:bg-blue-600 selection:text-white">
         <LanguageProvider>
+          <ScrollProgress />
           {children}
         </LanguageProvider>
       </body>

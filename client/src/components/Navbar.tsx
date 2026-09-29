@@ -82,23 +82,23 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuote }) => {
 
           {/* Actions: Integrated Language Switcher + Quote CTA */}
           <div className="hidden sm:flex items-center gap-5">
-            {/* Integrated Language Switcher Matching Screenshot */}
+            {/* Integrated Language Switcher */}
             <button
               onClick={toggleLanguage}
               type="button"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#0F172A] hover:text-blue-700 transition-colors cursor-pointer"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs sm:text-sm font-bold text-slate-800 bg-slate-50 hover:bg-slate-100 hover:text-blue-700 border border-slate-200 transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-2xs"
               title={language === 'en' ? 'التحويل إلى اللغة العربية' : 'Switch to English'}
               aria-label="Toggle language"
             >
-              <span>{language === 'en' ? 'English' : 'العربية'}</span>
-              <span className="text-xs">▾</span>
+              <Globe className="w-4 h-4 text-blue-600" />
+              <span>{language === 'en' ? 'العربية' : 'English'}</span>
             </button>
 
             {/* Request Quotation CTA Button (Navy Pill) */}
             <button
               onClick={onOpenQuote}
               type="button"
-              className="relative inline-flex items-center justify-center px-6 py-2.5 text-xs sm:text-sm font-bold text-white transition-all duration-200 bg-[#1E2D4A] hover:bg-[#152035] rounded-full shadow-sm active:scale-95 focus:outline-none cursor-pointer"
+              className="relative inline-flex items-center justify-center px-6 py-2.5 text-xs sm:text-sm font-bold text-white transition-all duration-200 bg-[#1E2D4A] hover:bg-[#152035] rounded-full shadow-sm hover:shadow-md hover:scale-102 active:scale-95 focus:outline-none cursor-pointer"
             >
               <span>{language === 'ar' ? 'طلب عرض سعر' : 'Request a Quote'}</span>
             </button>
@@ -109,9 +109,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuote }) => {
             <button
               onClick={toggleLanguage}
               type="button"
-              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-bold text-slate-700 bg-slate-100 border border-slate-200"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-all active:scale-95 cursor-pointer"
               aria-label="Toggle language"
             >
+              <Globe className="w-3.5 h-3.5 text-blue-600" />
               <span>{language === 'en' ? 'عربي' : 'EN'}</span>
             </button>
 
